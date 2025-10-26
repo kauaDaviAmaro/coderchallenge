@@ -1,0 +1,23 @@
+# Backend Dockerfile
+FROM node:20-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Create data directory for database
+RUN mkdir -p /app/data && chmod 755 /app/data
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm ci --only=production
+
+# Copy source code
+COPY . .
+
+# Expose port
+EXPOSE 3000
+
+# Start the server
+CMD ["node", "src/server.js"]
